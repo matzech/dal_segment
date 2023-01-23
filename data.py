@@ -3,11 +3,15 @@ import torch
 from torchvision import datasets
 
 class Data:
-    def __init__(self, X_train, Y_train, X_test, Y_test, handler):
+    def __init__(self, X_train, Y_train, X_test, Y_test, handler, X_val=None, Y_val=None):
         self.X_train = X_train
         self.Y_train = Y_train
         self.X_test = X_test
         self.Y_test = Y_test
+        if X_val:
+            self.X_val = X_val
+            self.Y_val = Y_val
+        
         self.handler = handler
         
         self.n_pool = len(X_train)
@@ -22,6 +26,10 @@ class Data:
         self.labeled_idxs[tmp_idxs[:num]] = True
     
     def get_labeled_data(self):
+        labeled_idxs = np.arange(self.n_pool)[self.labeled_idxs]
+        return labeled_idxs, self.handler(self.X_train[labeled_idxs], self.Y_train[labeled_idxs])
+
+    def get_labeled_data_valid(self):
         labeled_idxs = np.arange(self.n_pool)[self.labeled_idxs]
         return labeled_idxs, self.handler(self.X_train[labeled_idxs], self.Y_train[labeled_idxs])
     
