@@ -10,4 +10,4 @@ class BALDDropout(Strategy):
     def query(self, n):
         unlabeled_idxs, unlabeled_data = self.dataset.get_unlabeled_data()
         probs = self.predict_prob_dropout_split(unlabeled_data, n_drop=self.n_drop)
-        return unlabeled_idxs[probs.sort()[:n]]
+        return unlabeled_idxs[probs.sort(descending=True)[:n]]
