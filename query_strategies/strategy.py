@@ -41,3 +41,7 @@ class Strategy:
         embeddings = self.net.get_embeddings(data)
         return embeddings
 
+    def get_loss_by_img(self, data): ### this is an ideal metric --> losses are not known before
+        ### get next form loss
+        losses = self.net.get_loss_by_img(data)
+        return losses
